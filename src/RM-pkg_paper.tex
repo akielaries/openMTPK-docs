@@ -1,0 +1,640 @@
+\documentclass[12pt, letterpaper]{article}
+
+% must use this pkg for displaying imgs
+\usepackage{graphicx}
+\usepackage{ragged2e}
+\usepackage{amsmath}
+\usepackage{multirow,array}
+\usepackage{blindtext}
+\usepackage{etoolbox}
+\usepackage{marginnote}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\graphicspath{ {../../imgs/} }
+% pkg for links
+\usepackage{hyperref}
+
+% for codeblocks highlighting
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% Solarized colour scheme for listings
+\definecolor{solarized@base03}{HTML}{002B36}
+\definecolor{solarized@base02}{HTML}{073642}
+\definecolor{solarized@base01}{HTML}{586e75}
+\definecolor{solarized@base00}{HTML}{657b83}
+\definecolor{solarized@base0}{HTML}{839496}
+\definecolor{solarized@base1}{HTML}{93a1a1}
+\definecolor{solarized@base2}{HTML}{EEE8D5}
+\definecolor{solarized@base3}{HTML}{FDF6E3}
+\definecolor{solarized@yellow}{HTML}{B58900}
+\definecolor{solarized@orange}{HTML}{CB4B16}
+\definecolor{solarized@red}{HTML}{DC322F}
+\definecolor{solarized@magenta}{HTML}{D33682}
+\definecolor{solarized@violet}{HTML}{6C71C4}
+\definecolor{solarized@blue}{HTML}{268BD2}
+\definecolor{solarized@cyan}{HTML}{2AA198}
+\definecolor{solarized@green}{HTML}{859900}
+\definecolor{solarized@orchid}{HTML}{483D8B}
+
+
+% Define C++ syntax highlighting colour scheme
+\definecolor{commentgreen}{RGB}{2,112,10}
+\definecolor{eminence}{RGB}{108,48,130}
+\definecolor{weborange}{RGB}{255,165,0}
+\definecolor{frenchplum}{RGB}{129,20,83}
+
+\lstset {
+    language=[GNU]C++,
+    frame=tb,
+    tabsize=4,
+    showstringspaces=false,
+    numbers=left,
+    upquote=true,
+    commentstyle=\color{commentgreen},
+    keywordstyle=\color{solarized@orchid},
+    identifierstyle=\color{solarized@blue},
+    stringstyle=\color{solarized@magenta},
+    basicstyle=\small\ttfamily, % basic font setting
+    emph={int,char,double,float,unsigned,void,bool},
+    emphstyle={\color{blue}},
+    escapechar=\&,
+    % keyword highlighting
+    classoffset=1, % starting new class
+    otherkeywords={TEST, EXPECT_EQ,>,<,.,;,-,!,=,~, typename},
+    morekeywords={TEST, EXPECT_EQ,>,<,.,;,-,!,=,~, typename},
+    keywordstyle=\color{frenchplum},
+    classoffset=0
+}
+
+
+\makeatletter
+\patchcmd{\raggedright}{\parindent\z@}{}{}{}
+\makeatother
+
+\begin{document}
+
+
+\newcommand{\papertitle}{Akiel Aries}
+%\newcommand{\paperminortitle}{a Linux-Focused Attack}
+\newcommand{\papermajorheading}{RM-pkg}
+\newcommand{\paperminorheading}{Reusable Mathematics Package}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\Large \papermajorheading}\\[0.2cm] % Major heading such as course name
+\textsc{\large \paperminorheading}\\[0.75cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \papertitle}\\[0.1cm] % Title of your document
+%{ \huge \paperminortitle}\\[0.025cm] % Title of your document
+
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%--------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+{\large November 2022} \linebreak
+
+\begin{sloppypar}
+
+Abstract\\
+\begin{flushleft}
+\justify{
+RM-pkg is a reusable mathematics library written in C++ originally inspired from 
+undergraduate coursework at Northern Arizona University in mathematics, cybersecurity 
+and computer science, Python based projects in CS 499 Contemporary Developments, Deep
+Learning, developments on vpaSTRM as well as my increasing curiosity of the all things 
+pure and applied in the realm of mathematics\\
+The goal is to make a reusable mathematics library similar to the use of math.h allowing
+users to call within their own projects. Starting with some implementations of basics of 
+different mathematical topics like arithmetic, calculus, statistics, linear algebra, etc. 
+in conjunction with more advanced algorithms seen in the blend of such topics, branches 
+of Machine Learning, image processing and much more. Some of the modules operate in a 
+circular dependant way, for example arithmetic operations seen in linear algebra vector 
+operations that can be seen in algorithms implemented into the deep learning module. Many of
+these implementations were first prototypes in Wolfram Mathetmatica, then converted to C++ 
+code for the package. Look in the drivers folder for examples on using these tools in your 
+own project. This paper will highlight the modules in use, the mathematics/logic behind 
+them, future developments, and more. \linebreak
+
+github repository: \url{https://github.com/akielaries/RM-pkg}
+
+}
+\newpage
+
+\tableofcontents
+
+\newpage
+
+% classification img
+%\includegraphics[scale=0.3]{mirai-major-events-timeline.png}
+\section{Tools and Dependencies}
+The goal of RM-pkg is to have as little dependencies as possible without re-inventing the
+wheel too much while performing speedy computations. Other than C and C++ standard libraries
+the 3rd-party dependencies that are used are deemed necessary for many of the packages 
+functionalities. 
+
+\subsection{Tools}
+
+\begin{itemize}
+\item \textbf{gtest}: Used for unit testing. Within the projects development Makefile, 
+there are option to run the tests for the modules in this package. This is done by compiling 
+a driver file that runs the methods referenced in each module, the source module file itself, 
+and then the gtest based test driver file for said module. Some modules are harder to test
+than others but for the most part simply checking the expected output against the computed 
+output does all the checking that is needed. 
+
+\item \textbf{AFL and AFL++}: AFL is a fuzzing tool built by Google but now deprecated.
+AFL++ is an open source community effort forked from AFL offering the same functionalities but 
+much better. Advertised as better mutations, more speed, and better instrumentation. Fuzzing 
+comes in handy for generating random inputs for your program and analyzing the outputs. 
+Analyzing crashes, unique or not, proves valuable for implementing strong and secure code. 
+
+The code below is an example on how testing on the arithmetic package was done.
+\begin{lstlisting}
+#include <RM-pkg/arithmetic/arith.hpp>
+#include <gtest/gtest.h>
+
+namespace {
+    arith ar;
+    // test case, test name
+    TEST(arith_test, add_positive) {
+        EXPECT_EQ(46094, ar.rm_add(93, 106, 3551, 42344));
+        EXPECT_EQ(6.85, ar.rm_add(1.25, 1.85, 2.75, 1));
+    }
+    // multiplication (product) testing
+    TEST(arith_test, mult_positive) {
+        EXPECT_EQ(240, ar.rm_mult(10, 8, 3));
+        EXPECT_EQ(6.359375, ar.rm_mult(1.25, 1.85, 2.75, 1));
+    }
+    // subtraction
+    TEST(arith_test, sub_positive) {
+        EXPECT_EQ(5, ar.rm_sub(10, 8, 3));
+        EXPECT_EQ(1, ar.rm_sub(1.25, 1.85, 2.75));
+    }
+}
+\end{lstlisting}
+
+\end{itemize}
+
+\subsection{Dependencies}
+RM-pkg makes use of a few open source cross-platform compatible packages and libraries
+in the cases of threading for performance, graphics libraries, and packages for testing
+and fuzzing.
+\begin{itemize}
+\item \textbf{openMP}: Open Multi-Processing is useful for simple threading when needed.
+For loops that don't make complex calls can be encosed in a 
+\verb|#pragma omp parallel for {}| declaration.
+
+\item \textbf{openCL}: Open Computing Language is another useful threading API that allows for
+more customized parallelization techniques. 
+
+\item \textbf{openGL}: Open Graphics Library used for hardware-accelerated rendering. API
+makes use of interaction with a machines Graphics Processing Unit (GPU) allowing for quick
+rendering of modules that make use.
+
+\item \textbf{libXbgi}: Borland Graphics Interface reiteration. Provides a useful graphics API
+to get started with visualizing mathematical algorithms.
+
+\end{itemize}
+
+
+\section{Modules}
+The purpose of this package is to also be as modular as possible. Simply calling a module in 
+the package from within your C++ project with \verb|#include <RM-pkg/arithmetic/arith.hpp>|, 
+this allows a developer to utilize the basic operations implemented in the arithmetic module.
+Calling \verb|#include <RM-pkg/number_theory/primes.hpp>| allows a developer to use the 
+prime number based operations within the number theory module. \linebreak
+As of now (Nov. 2022), there is no formal installation process or real way to use RM-pkg.
+The use of Makefiles + shell scripts is primarily for development purposes, users of the 
+package will need to compile their own version of the library in their standard
+library directories or include the source and header files in their projects with some 
+modifications. \linebreak
+Perhaps in later implementations of RM-pkg, APIs for Python, Julia and possibly MATLAB 
+depending on how easy the binding process is. 
+
+\subsection{Arithmetic}
+Basic arithmetic operations, addition, subtraction, multiplication, exponentiation, were 
+implemented in a way to accept `n` arguments of `n` types. Meaning calling any of the 
+respective functions allows numerous parameters to be passed in of various numeric data type. 
+This acts as the basis for many of the basic functionalities of this package.
+In the repository for the project, see \verb|/include/arithmetic/arith.hpp| for the 
+implementation of this module. Since it makes use of C++ class templates, this module is 
+header-only in development. Addition, subtraction, and multiplication were all implemented 
+in an identical way, making use of templates and inline functionalites. Within the RM-pkg 
+repository, I had provided examples on how to use the modules as seen in the 
+\verb|/drivers| folder. Each driver file contains a \verb|main()| function.
+
+\subsubsection{Addition}
+\noindent The arithmetic operation addition can sometimes be thought of the adding of two 
+digits while a summation is the adding of a series of two or more digits. RM-pkg's add() 
+function makes use of both. Since it is a template class allowing to add n numbers of many 
+numeric data types, passing in just two numbers to add() qualifies as plain addition while 
+passing in two or more variables qualifies as more simplified version of a summation.\\
+
+\noindent Below is how the addition operation was implemented.
+\begin{lstlisting}
+template<typename T>
+inline T add(T t) {
+	return t;
+}
+template<typename T, typename... Ts>
+inline auto add(T t, Ts... ts) {
+	return t + add(ts...);
+}
+\end{lstlisting}
+
+\noindent\textbf{Addition}:
+\begin{flalign*}
+&z = x + y&
+\end{flalign*}
+Where \textbf{x} and \textbf{y} are the addends and \textbf{z} is the sum \\
+
+\noindent A typical summation may look something like this: \\
+\textbf{Summation}: 
+\begin{flalign*}
+f(x) & =\sum_{i=1}^{n} x_1 + x_2 + ... + x_n&
+\end{flalign*}
+
+\noindent Where \textbf{i} is the index of the summation and \textbf{n} is the upper 
+limit. For example the summation of one with a limit of three would look like:
+\begin{flalign*}
+&6 = 1 + 2 + 3&
+\end{flalign*}
+
+\noindent RM-pkg's add() function operates differently for multiple digits as it does not
+take in an upper limit to calculate up to from the index. Instead, it takes in multiple
+indices like a list and adds them together. See the formula below:\\
+\begin{flalign*}
+f(x) & =\sum_{i=a} a_1 + a_2 + ... + a_n&
+\end{flalign*}
+
+\noindent Where \textbf{a} is a series of digits input into the call to the function and 
+\textbf{n} is the index of the list-like series passed in. See below:
+\begin{lstlisting}
+int sum = ar.add(4, 8, 1, 2);
+\end{lstlisting}
+
+\noindent Translating the function call into the above formula would look like:
+\begin{flalign*}
+& 15 = 4 + 8 + 1 + 2&
+\end{flalign*}
+
+Below is a brief example on how to use the multiplication function in the arithmetic 
+module. 
+\begin{lstlisting}
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <cassert>
+#include <RM-pkg/arithmetic/arith.hpp>
+
+int main() {
+    // declare arithmetic class object
+    arith ar;
+    int a = 10;
+    int b = 8;
+    int c = 3;
+    double d = 1.25;
+    float e = 1.85;
+    float f = 2.75;
+    long g = 1.35;
+    float r0 = ar.add(a, b, c);
+    int r1 = ar.add(d, e, f, g);
+    float r2 = ar.add(d, e, f, g);
+
+    printf("%d + %d + %d = %f\n", 
+			a, b, c, r0);
+    printf("%f + %f + %f + %ld = %d\n", 
+    			d, e, f, g, r1);
+    printf("%f + %f + %f + %ld = %f\n\n", 
+    			d, e, f, g, r2);
+    return 0;	
+}
+\end{lstlisting}
+
+\subsubsection{Subtraction}
+This operation works exactly like \verb|add()| except it is performing subtraction 
+instead of addition. 
+\begin{flalign*}
+&z = x - y&
+\end{flalign*}
+Where \textbf{x} is the \textit{minuend} \textbf{y} is the \textit{subtrahend} making
+\textbf{z} the \textit{difference}. \\
+
+\noindent Below is a brief example on how to use the subtraction function in the arithmetic 
+module. 
+\begin{lstlisting}
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <cassert>
+#include <RM-pkg/arithmetic/arith.hpp>
+
+int main() {
+    // declare arithmetic class object
+    arith ar;
+    int a = 10;
+    int b = 8;
+    int c = 3;
+    double d = 1.25;
+    float e = 1.85;
+    float f = 2.75;
+    long g = 1.35;
+    int r3 = ar.sub(a, b, c);
+    int r4 = ar.sub(d, e, f ,g);
+    float r5 = ar.sub(d ,e, f, g);
+    
+    printf("%d - %d - %d = %d\n", a, b, c, r3);
+    printf("%f - %f - %f - %d = %d\n", d, e, f, g, r4);
+    printf("%f - %f - %f - %f = %f\n\n", d, e, f, g, r5);
+    return 0;	
+}
+\end{lstlisting}
+
+
+\subsubsection{Multiplication}
+\noindent The arithmetic operation multiplication can be conceptualized the same as 
+addition. A product \begin{math}\prod \end{math} is the multiplication of a series 
+of two or more numbers. Just like summation there are typically an index and an upper 
+limit. Identical to the addition operation of this module, multiplication behaves like
+a modified product formula. 
+
+\noindent Below is how the multiplication operation was implemented.
+\begin{lstlisting}
+template<typename W>
+inline W mult(W w) {
+	return w;
+}
+template<typename W, typename... Wv>
+inline auto mult(W w, Wv... wv) {
+	return w * mult(wv...);
+}
+\end{lstlisting}
+
+\newpage
+
+\noindent\textbf{Multiplication}:
+\begin{flalign*}
+&z = x \cdot y&
+\end{flalign*}
+Where \textbf{x} is the \textit{multiplier} \textbf{y} is the \textit{multiplicand} 
+making \textbf{z} the \textit{product}.
+
+\noindent A typical summation may look something like this: \\
+\textbf{Product}: 
+\begin{flalign*}
+f(x) & =\prod_{i=1}^{n} x_1 \cdot x_2 \cdot ... \cdot x_n&
+\end{flalign*}
+
+\noindent Where \textbf{i} is the index of the product and \textbf{n} is the upper 
+limit. 
+
+\noindent For example the product of one with a limit of three would look like:
+\begin{flalign*}
+&6 = 1 \cdot 2 \cdot 3 &
+\end{flalign*}
+
+\noindent Take this sample into account as well.
+\begin{flalign*}
+f(x) & =\prod_{i=1}^{6} i^2&
+\end{flalign*}
+
+\noindent This results in:
+\begin{flalign*}
+&518,400 = 1 \cdot 4 \cdot 9 \cdot 16 \cdot 25 \cdot 36&
+\end{flalign*}
+
+\noindent RM-pkg's mult() function operates differently for multiple digits as it does not
+take in an upper limit to calculate up to from the index. Instead, it takes in multiple
+indices like a list and multiplies them together. See the formula below:\\
+\begin{flalign*}
+f(x) & =\prod_{i=a} a_1 \cdot a_2 \cdot ... \cdot a_n&
+\end{flalign*}
+
+\noindent Where \textbf{a} is a series of digits input into the call to the function and 
+\textbf{n} is the index of the list-like series passed in. See below:
+\begin{lstlisting}
+int sum = ar.mult(4, 8, 1, 2);
+\end{lstlisting}
+
+\noindent Translating the function call into the above formula would look like:
+\begin{flalign*}
+& 64 = 4 \cdot 8 \cdot 1 \cdot 2&
+\end{flalign*}
+
+\noindent Below is a brief example on how to use the multiplication function in the 
+arithmetic module. 
+\begin{lstlisting}
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <cassert>
+#include <RM-pkg/arithmetic/arith.hpp>
+
+int main() {
+    // declare arithmetic class object
+    arith ar;
+    int a = 10;
+    int b = 8;
+    int c = 3;
+    double d = 1.25;
+    float e = 1.85;
+    float f = 2.75;
+    long g = 1.35;
+    int r6 = ar.mult(a, b, c);
+    int r7 = ar.mult(d, e, f ,g);
+    double r8 = ar.mult(d ,e, f, g);
+
+    printf("%d * %d * %d = %d\n", a, b, c, r6);
+    printf("%f * %f * %f * %d = %d\n", d, e, f, g, r7);
+    printf("%f * %f * %f * %ld = %f\n\n", d, e, f, g, r8);
+    return 0;	
+}
+\end{lstlisting}
+
+
+\subsubsection{Exponentiation}
+\noindent Exponentiation is also a basic arithmetic operation that also makes use of
+the multiplication operation. Multplying the base by itself continuously as specified
+by the power. STL provides the \verb|pow()| function that is capable of performing similar
+operations, RM-pkg's \verb|exp()| function operates in similar ways to the previously
+mentioned \verb|add()|, \verb|sub()| and \verb|mult()| functions, taking in \textbf{n} 
+arguments of \textbf{n} types. A basic exponentiation would include one base and one 
+power, RM-pkg's exponentiation function allows for one base and \textbf{n} powers. \\
+
+\noindent\textbf{Exponentiation}:
+\begin{flalign*}
+& x^n = \underbrace{x \cdot x \cdot x \cdot ... \cdot x}_\textrm{n times} &
+\end{flalign*}
+
+\noindent Where \textbf{x} is the raised to the power of \textbf{n}. \\
+
+\noindent Say we have an exponential equation like below: 
+\begin{flalign*}
+& x^{n^i} &
+\end{flalign*}
+Where \textbf{x} is our base, \textbf{n} is the power of our base, and \textbf{i} is the
+power of the result of our original exponential equation. Breaking it down as such:
+\begin{flalign*}
+& x^{n^i} \Rightarrow \underbrace{x \cdot x \cdot ... \cdot x}_\textrm{n times} = y^i & \\
+& y^i \Rightarrow \underbrace{y \cdot y \cdot ... \cdot y}_\textrm{i times} = z &
+\end{flalign*}
+\noindent Where \textbf{z} is our result.
+
+\noindent Below is how the exponentiation operation was implemented.
+\begin{lstlisting}
+template<typename Z>
+inline W exp(Z z) {
+	return z;
+}
+template<typename Z, typename... Zy>
+inline auto exp(Z z, Zy... zy) {
+	return z *= exp(zy...);
+}
+\end{lstlisting}
+
+
+\subsection{Calculus}
+Calculus is a branch of mathematics focused on continuous change. Split into two branches
+(see below), concerned with rates of change, slopes of a given curve, quanitity accumulations,
+areas between and below curves.
+
+\subsubsection{Differential} 
+The derivative of a function of a real variable measures the sensitivity to change of the 
+function value (output value) with respect to a change in its argument (input value). For 
+example, the derivative of the position of a moving object with respect to time is the 
+object's velocity: this measures how quickly the position of the object changes when time 
+advances.
+\subsubsection{Integral}
+Coming Soon...
+
+\subsection{Linear Algebra}
+Branch of mathematics concerned with linear equations, maps and their purposes and value 
+in vector and matrix spaces. The concept is foundational in other areas of mathematics, 
+computing, and other realms of science and engineering. 
+
+\subsubsection{Vector Addition}
+Two vectors of the same size can be added together by adding the corresponding elements, to 
+form another vector of the same size, called the sum of the vectors. Vector addition is 
+denoted by the symbol +. (Thus the symbol + is overloaded to mean scalar addition when 
+scalars appear on its left- and right-hand sides, and vector addition when vectors appear 
+on its left- and right-hand sides.)
+
+\subsubsection{Vector Subtraction}
+Coming Soon...
+
+\subsubsection{Vector Multiplication}
+Another operation is scalar multiplication or scalar-vector multiplication, in which a vector 
+is multiplied by a scalar (i.e., number), which is done by multiplying every element of the 
+vector by the scalar. Scalar multiplication is denoted by juxtaposition, typically with the 
+scalar on the left.
+
+\subsection{Number Theory}
+A branch of pure mathematics with applications in cryptography, phyics, others areas of 
+computation, etc. that primarily deals with the study of integers, integer valued functions, 
+prime numbers, as well as the attributes and properties made from integers and their functions. 
+This topic of mathematics is quite theoretical and is difficult to view the applications in a 
+comprehensible sense. Beyond the basics of Number Theory, this module will also focus on 
+encryption algorithms.
+
+\subsubsection{Caesar Cipher}
+Coming Soon...
+
+\subsubsection{Monoalphabetic Substitution Keyword Cipher}
+\subsubsection{Rivest Cipher 2 (RC2) Encryption Algorithm}
+\subsubsection{Rivest Cipher 4 (RC4) Encryption Algorithm}
+A stream cipher algorithm created by Ron Rivest (creator of RSA) previously declared 
+insecure. RC4 generates a pseudorandom stream of bits (a keystream). As with any stream 
+cipher, these can be used for encryption by combining it with the plaintext using bitwise 
+exclusive or; decryption is performed the same way (since exclusive or with given data is 
+an involution). This is similar to the one-time pad, except that generated pseudorandom 
+bits, rather than a prepared stream, are used. To generate the keystream, the cipher makes 
+use of a secret internal state which consists of two parts:
+
+\item 1. A permutation of all 256 possible bytes (denoted "S" below).
+\item 2. Two 8-bit index-pointers (denoted "i" and "j").
+The permutation is initialized with a variable-length key, typically between 40 and 2048 
+bits, using the key-scheduling algorithm (KSA). Once this has been completed, the stream 
+of bits is generated using the pseudo-random generation algorithm (PRGA).
+
+\subsubsection{Rivest Cipher 5 (RC5) Encryption Algorithm}
+Coming Soon...
+
+\subsubsection{Rivest Cipher 6 (RC6) Encryption Algorithm}
+Coming Soon...
+
+\subsection{Deep Learning}
+\subsubsection{Linear Regression}
+A statistical algorithm with a linear approach for modeling the relationship between a 
+scalar response and one or more explanatory variables (also known as dependent and 
+independent variables). In linear regression, the relationships are modeled using linear 
+predictor functions whose unknown model parameters are estimated from the data. Such models 
+are called linear models.
+
+\subsubsection{Cross Validation}
+A resampling technique, the idea of this method is to train our model by utilizing 
+the subsets of our data set then proceeding to evaluate + compare against the original.
+Essentially, use some part(s) of the data set for training, other part(s) for testing.
+
+\subsubsection{K-Fold Cross Validation}
+Split our data into a `k` number of subsets also called folds, and perform
+training/learning on the subsets leaving one `(k - 1)` for the final evaluation of 
+the trained model. The method involves iterating `k` number of times using a different
+fold each time for testing against.
+
+\subsection{Complex}
+I had named this module accordingly due to its overall complexity and difficulty. This module
+name will be more clear as some topics will include the name. This module makes use of the 
+openGL(Open Graphics Library) package for graphics purposes. 
+
+\subsubsection{Topology}
+Topology is concerned with the properties of a geometric object that are preserved under
+continuous deformations, such as stretching, twisting, crumpling, and bending; that is,
+without closing holes, opening holes, tearing, gluing, or passing through itself.
+
+\subparagraph*{Torus}: A torus is a geometrical disc-shaped figure that is created by
+revolving a circle in a three-dimensional space about an axis that is coplanar with the 
+cicle. Depending on the revolutions of the circle, different types of tori can be formed. 
+Horn, spindle, and more types of torus are made when revolutions into a spherical disc 
+are not met.
+
+\subsubsection{Dynamical Systems}
+Systems in which a function describes the time dependence of a point in an ambient space. 
+\subparagraph*{Fractals} A geometric shape containing detailed structure at arbitrarily 
+small scales, usually having a fractal dimension strictly exceeding the topological 
+dimension. \\
+
+\begin{itemize}
+\item \textbf{Mandelbrot Fractal}: \\
+
+\item \textbf{Julia Fractal}: \\
+
+\end{itemize}
+
+
+\subsubsection{Spline}
+A spline curve is a mathematical representation for which it is easy to build an interface 
+that will allow a user to design and control the shape of complex curves and surfaces.
+The Complex module includes ways to create your own Non-Uniform Rational B-Splines (NURBS),
+Bezier Surfaces (as well as patches and curves)
+
+
+\end{flushleft}
+\end{sloppypar}
+\end{document}

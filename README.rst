@@ -1,9 +1,7 @@
-Template for the Read the Docs tutorial
-=======================================
+# Overview
+LaTeX paper/documentation on RM-pkg. Since the package makes use of
+simple and complex algorithms and equations seen in numerous branches of
+mathematics, easy to follow documentation to refer to makes sense.
 
-This GitHub template includes fictional Python library
-with some basic Sphinx docs.
+RM-pkg repo here: https://github.com/akielaries/RM-pkg
 
-Read the tutorial here:
-
-https://docs.readthedocs.io/en/stable/tutorial/
