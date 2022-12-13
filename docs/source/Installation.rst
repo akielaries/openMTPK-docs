@@ -35,7 +35,7 @@ for quick rendering of modules that make use.
 to get started with visualizing mathematical algorithms.
 
 Tools
-_____
+-----
 * Gtest: Used for unit testing. Within the projects development Makefile,
 there are option to run the tests for the modules in this package. This is done by 
 compiling a driver file that runs the methods referenced in each module, the source 
