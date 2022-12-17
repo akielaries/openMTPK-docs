@@ -13,10 +13,10 @@ later stages.
 
 Dependencies
 ------------
-The goal of RM-pkg is to have as little dependencies as possible without re-inventing 
+The goal of openMTPK is to have as little dependencies as possible without re-inventing 
 the wheel too much while performing speedy computations. Other than C and C++ standard 
 libraries the 3rd-party dependencies that are used are deemed necessary for many of the
-packages functionalities. RM-pkg makes use of a few open source cross-platform 
+packages functionalities. openMTPK makes use of a few open source cross-platform 
 compatible packages and libraries in the cases of threading for performance, graphics 
 libraries, and packages for testing and fuzzing.
 
@@ -53,7 +53,7 @@ for implementing strong and secure code.
 The code below is an example on how testing on the arithmetic module was done.
 
 .. code-block:: cpp
-    #include <RM-pkg/arithmetic/arith.hpp>
+    #include <openMTPK/arithmetic/arith.hpp>
     #include <gtest/gtest.h>
     namespace {
         arith ar;
