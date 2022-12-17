@@ -1,6 +1,6 @@
-Welcome to RM-pkg's documentation.
+Welcome to openMTPK's documentation.
 ===================================
-**RM-pkg** is a reusable mathematics library written in C++ originally inspired from my 
+**openMTPK** is a open-source mathematics package written in C++ originally inspired from my 
 undergraduate coursework at Northern Arizona University in mathematics, cybersecurity 
 and computer science, Python based projects in CS 499 Contemporary Developments, Deep
 Learning, developments on vpaSTRM as well as my increasing curiosity of the all things 
