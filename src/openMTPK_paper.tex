@@ -77,8 +77,8 @@
 
 \newcommand{\papertitle}{Akiel Aries}
 %\newcommand{\paperminortitle}{a Linux-Focused Attack}
-\newcommand{\papermajorheading}{RM-pkg}
-\newcommand{\paperminorheading}{Reusable Mathematics Package}
+\newcommand{\papermajorheading}{openMTPK}
+\newcommand{\paperminorheading}{open-source Mathematics Package}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
 
@@ -115,7 +115,7 @@
 Abstract\\
 \begin{flushleft}
 \justify{
-RM-pkg is a reusable mathematics library written in C++ originally inspired from 
+openMTPK is a reusable mathematics library written in C++ originally inspired from 
 undergraduate coursework at Northern Arizona University in mathematics, cybersecurity 
 and computer science, Python based projects in CS 499 Contemporary Developments, Deep
 Learning, developments on vpaSTRM as well as my increasing curiosity of the all things 
@@ -132,7 +132,7 @@ code for the package. Look in the drivers folder for examples on using these too
 own project. This paper will highlight the modules in use, the mathematics/logic behind 
 them, future developments, and more. \linebreak
 
-github repository: \url{https://github.com/akielaries/RM-pkg}
+github repository: \url{https://github.com/akielaries/openMTPK}
 
 }
 \newpage
@@ -144,7 +144,7 @@ github repository: \url{https://github.com/akielaries/RM-pkg}
 % classification img
 %\includegraphics[scale=0.3]{mirai-major-events-timeline.png}
 \section{Tools and Dependencies}
-The goal of RM-pkg is to have as little dependencies as possible without re-inventing the
+The goal of openMTPK is to have as little dependencies as possible without re-inventing the
 wheel too much while performing speedy computations. Other than C and C++ standard libraries
 the 3rd-party dependencies that are used are deemed necessary for many of the packages 
 functionalities. 
@@ -167,25 +167,25 @@ Analyzing crashes, unique or not, proves valuable for implementing strong and se
 
 The code below is an example on how testing on the arithmetic package was done.
 \begin{lstlisting}
-#include <RM-pkg/arithmetic/arith.hpp>
+#include <openMTPK/arithmetic/arith.hpp>
 #include <gtest/gtest.h>
 
 namespace {
     arith ar;
     // test case, test name
     TEST(arith_test, add_positive) {
-        EXPECT_EQ(46094, ar.rm_add(93, 106, 3551, 42344));
-        EXPECT_EQ(6.85, ar.rm_add(1.25, 1.85, 2.75, 1));
+        EXPECT_EQ(46094, ar.add(93, 106, 3551, 42344));
+        EXPECT_EQ(6.85, ar.add(1.25, 1.85, 2.75, 1));
     }
     // multiplication (product) testing
     TEST(arith_test, mult_positive) {
-        EXPECT_EQ(240, ar.rm_mult(10, 8, 3));
-        EXPECT_EQ(6.359375, ar.rm_mult(1.25, 1.85, 2.75, 1));
+        EXPECT_EQ(240, ar.mult(10, 8, 3));
+        EXPECT_EQ(6.359375, ar.mult(1.25, 1.85, 2.75, 1));
     }
     // subtraction
     TEST(arith_test, sub_positive) {
-        EXPECT_EQ(5, ar.rm_sub(10, 8, 3));
-        EXPECT_EQ(1, ar.rm_sub(1.25, 1.85, 2.75));
+        EXPECT_EQ(5, ar.sub(10, 8, 3));
+        EXPECT_EQ(1, ar.sub(1.25, 1.85, 2.75));
     }
 }
 \end{lstlisting}
@@ -193,7 +193,7 @@ namespace {
 \end{itemize}
 
 \subsection{Dependencies}
-RM-pkg makes use of a few open source cross-platform compatible packages and libraries
+openMTPK makes use of a few open source cross-platform compatible packages and libraries
 in the cases of threading for performance, graphics libraries, and packages for testing
 and fuzzing.
 \begin{itemize}
@@ -216,16 +216,16 @@ to get started with visualizing mathematical algorithms.
 
 \section{Modules}
 The purpose of this package is to also be as modular as possible. Simply calling a module in 
-the package from within your C++ project with \verb|#include <RM-pkg/arithmetic/arith.hpp>|, 
+the package from within your C++ project with \verb|#include <openMTPK/arithmetic/arith.hpp>|, 
 this allows a developer to utilize the basic operations implemented in the arithmetic module.
-Calling \verb|#include <RM-pkg/number_theory/primes.hpp>| allows a developer to use the 
+Calling \verb|#include <openMTPK/number_theory/primes.hpp>| allows a developer to use the 
 prime number based operations within the number theory module. \linebreak
-As of now (Nov. 2022), there is no formal installation process or real way to use RM-pkg.
+As of now (Nov. 2022), there is no formal installation process or real way to use openMTPK.
 The use of Makefiles + shell scripts is primarily for development purposes, users of the 
 package will need to compile their own version of the library in their standard
 library directories or include the source and header files in their projects with some 
 modifications. \linebreak
-Perhaps in later implementations of RM-pkg, APIs for Python, Julia and possibly MATLAB 
+Perhaps in later implementations of openMTPK, APIs for Python, Julia and possibly MATLAB 
 depending on how easy the binding process is. 
 
 \subsection{Arithmetic}
@@ -236,13 +236,13 @@ This acts as the basis for many of the basic functionalities of this package.
 In the repository for the project, see \verb|/include/arithmetic/arith.hpp| for the 
 implementation of this module. Since it makes use of C++ class templates, this module is 
 header-only in development. Addition, subtraction, and multiplication were all implemented 
-in an identical way, making use of templates and inline functionalites. Within the RM-pkg 
+in an identical way, making use of templates and inline functionalites. Within the openMTPK 
 repository, I had provided examples on how to use the modules as seen in the 
 \verb|/drivers| folder. Each driver file contains a \verb|main()| function.
 
 \subsubsection{Addition}
 \noindent The arithmetic operation addition can sometimes be thought of the adding of two 
-digits while a summation is the adding of a series of two or more digits. RM-pkg's add() 
+digits while a summation is the adding of a series of two or more digits. openMTPK's add() 
 function makes use of both. Since it is a template class allowing to add n numbers of many 
 numeric data types, passing in just two numbers to add() qualifies as plain addition while 
 passing in two or more variables qualifies as more simplified version of a summation.\\
@@ -277,7 +277,7 @@ limit. For example the summation of one with a limit of three would look like:
 &6 = 1 + 2 + 3&
 \end{flalign*}
 
-\noindent RM-pkg's add() function operates differently for multiple digits as it does not
+\noindent openMTPK's add() function operates differently for multiple digits as it does not
 take in an upper limit to calculate up to from the index. Instead, it takes in multiple
 indices like a list and adds them together. See the formula below:\\
 \begin{flalign*}
@@ -302,7 +302,7 @@ module.
 #include <stdio.h>
 #include <vector>
 #include <cassert>
-#include <RM-pkg/arithmetic/arith.hpp>
+#include <openMTPK/arithmetic/arith.hpp>
 
 int main() {
     // declare arithmetic class object
@@ -344,7 +344,7 @@ module.
 #include <stdio.h>
 #include <vector>
 #include <cassert>
-#include <RM-pkg/arithmetic/arith.hpp>
+#include <openMTPK/arithmetic/arith.hpp>
 
 int main() {
     // declare arithmetic class object
@@ -420,7 +420,7 @@ f(x) & =\prod_{i=1}^{6} i^2&
 &518,400 = 1 \cdot 4 \cdot 9 \cdot 16 \cdot 25 \cdot 36&
 \end{flalign*}
 
-\noindent RM-pkg's mult() function operates differently for multiple digits as it does not
+\noindent openMTPK's mult() function operates differently for multiple digits as it does not
 take in an upper limit to calculate up to from the index. Instead, it takes in multiple
 indices like a list and multiplies them together. See the formula below:\\
 \begin{flalign*}
@@ -445,7 +445,7 @@ arithmetic module.
 #include <stdio.h>
 #include <vector>
 #include <cassert>
-#include <RM-pkg/arithmetic/arith.hpp>
+#include <openMTPK/arithmetic/arith.hpp>
 
 int main() {
     // declare arithmetic class object
@@ -473,10 +473,10 @@ int main() {
 \noindent Exponentiation is also a basic arithmetic operation that also makes use of
 the multiplication operation. Multplying the base by itself continuously as specified
 by the power. STL provides the \verb|pow()| function that is capable of performing similar
-operations, RM-pkg's \verb|exp()| function operates in similar ways to the previously
+operations, openMTPK's \verb|exp()| function operates in similar ways to the previously
 mentioned \verb|add()|, \verb|sub()| and \verb|mult()| functions, taking in \textbf{n} 
 arguments of \textbf{n} types. A basic exponentiation would include one base and one 
-power, RM-pkg's exponentiation function allows for one base and \textbf{n} powers. \\
+power, openMTPK's exponentiation function allows for one base and \textbf{n} powers. \\
 
 \noindent\textbf{Exponentiation}:
 \begin{flalign*}
