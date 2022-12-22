@@ -1,7 +1,7 @@
-# Overview
 LaTeX paper/documentation on openMTPK. Since the package makes use of
 simple and complex algorithms and equations seen in numerous branches of
 mathematics, easy to follow documentation to refer to makes sense.
 
 RM-pkg repo here: https://github.com/akielaries/openMTPK
 
+readethedocs: https://openmtpk-docs.readthedocs.io/en/latest/
