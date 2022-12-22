@@ -51,8 +51,7 @@ program and analyzing the outputs Analyzing crashes, unique or not, proves valua
 for implementing strong and secure code.
 
 The code below is an example on how testing on the arithmetic module was done.
-
-.. code-block:: cpp
+```c++
     #include <openMTPK/arithmetic/arith.hpp>
     #include <gtest/gtest.h>
     namespace {
@@ -74,5 +73,6 @@ The code below is an example on how testing on the arithmetic module was done.
         }
    }
 
+```
 
 
