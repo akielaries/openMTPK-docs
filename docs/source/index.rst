@@ -24,6 +24,6 @@ Contents
 
    Installation
    Usage
-   Language Bindings
+   APIs
    Modules
    
