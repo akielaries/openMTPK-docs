@@ -1,10 +1,10 @@
 Installation
 =====
-
 Requirements are loose and mostly tied to what openMTPK was tested and used on.
 The current installation does not allow for the building of the packages language
 bindings, limiting use to the core c++ lib. See below on how to build the bindings 
 from source if interested.
+
 ## Requirements
 * Linux/OSX
 * CMake
@@ -41,8 +41,7 @@ $ make arith
 $ make num-theory
 ...
 ```
-Dependencies
-------------
+## Dependencies
 > **Warning**
 > At the moment these dependencies do not apply to the current release. 
 
@@ -67,8 +66,7 @@ for quick rendering of modules that make use.
 * libXbgi: Borland Graphics Interface reiteration. Provides a useful graphics API
 to get started with visualizing mathematical algorithms.
 
-Tools
------
+## Tools
 * Gtest: Used for unit testing. Within the projects development Makefile,
 there are option to run the tests for the modules in this package. This is done by 
 compiling a driver file that runs the methods referenced in each module, the source 
