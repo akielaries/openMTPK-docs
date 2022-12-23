@@ -1,18 +1,51 @@
 Installation
 =====
 
-For now there is not much use of this package unless you wanted to include the
-definition + implementation files in your own project with a little modification.
-The use of Makefiles + shell scripts to compile modules, tests, clean generated files,
-and more for development purposes. When the package reaches a *publishable state*, I
-will create an installation process with CMake compiling the source files into a clean
-object for your standard directories with callable headers in `usr/include`. Since I
-use Linux as my main development environment, installation instructions will make the
-assumption you are using the same. Builds/tests for OSX will also be in development in
-later stages.
+Requirements are loose and mostly tied to what openMTPK was tested and used on.
+The current installation does not allow for the building of the packages language
+bindings, limiting use to the core c++ lib. See below on how to build the bindings 
+from source if interested.
+## Requirements
+* Linux/OSX
+* CMake
+* g++
+```
+# clone repo
+$ git clone git@github.com:akielaries/openMTPK.git
+$ cd oepnMTPK
+# create build dir
+$ mkdir build && cd build
+# create necessary objects and static library
+$ cmake ..
+$ make
+# install necessary headers and library in correct directories
+$ sudo make install
+```
+> **Note**
+> This process asumes your STDLIB path is /usr/local/lib, where most 3rd-party 
+> libs are located if not, run the following:
+```
+$ LD_LIBRARY_PATH=/usr/local/lib
+```
 
+To test the installation build some of the example drivers in the projects 
+[samples](https://github.com/akielaries/openMTPK/tree/main/samples) directory.
+```
+# compile yourself
+$ cd samples
+$ g++ cipher.cpp -lopenMTPK -o cipher
+$ g++ arith.cpp -lopenMTPK -o arith
+# script to test all modules and their drivers
+# using the projects root makefile
+$ make arith
+$ make num-theory
+...
+```
 Dependencies
 ------------
+> **Warning**
+> At the moment these dependencies do not apply to the current release. 
+
 The goal of openMTPK is to have as little dependencies as possible without re-inventing 
 the wheel too much while performing speedy computations. Other than C and C++ standard 
 libraries the 3rd-party dependencies that are used are deemed necessary for many of the
