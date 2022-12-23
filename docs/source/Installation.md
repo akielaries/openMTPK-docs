@@ -74,5 +74,3 @@ The code below is an example on how testing on the arithmetic module was done.
    }
 
 ```
-
-
