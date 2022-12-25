@@ -1,3 +1,3 @@
-[submodule "RM-pkg"]
-	path = RM-pkg
-	url = git@github.com:akielaries/RM-pkg.git
+[submodule "openMTPK"]
+	path = openMTPK
+	url = git@github.com:akielaries/openMTPK.git
