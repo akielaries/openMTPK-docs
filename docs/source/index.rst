@@ -11,7 +11,7 @@ algebra vector operations that can be seen in algorithms implemented into the de
 Many of these implementations were first prototypes in Wolfram Mathetmatica, then converted to C++ 
 code for the package. Look in the drivers folder for examples on using these tools in your 
 own project. This paper will highlight the modules in use, the mathematics/logic behind 
-them, future developments, and more. \linebreak
+them, future developments, and more.
 
 .. note::
 
