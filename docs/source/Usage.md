@@ -1,7 +1,5 @@
 Usage
 =====
-
-# Method List
 This is a list highlighting all methods that can be used within openMTPK based off the 
 modules of the package. </br>
 
